@@ -47,14 +47,23 @@ const getStationReadings = async (stationID : string): Promise<PureLevelReading[
       readings.unshift({ dateTime, value })
     })
     console.log(readings)
+    //readings.push({ dateTime:new Date("2026-03-14T20:25:10.358Z"), value:0.7 })
     return readings
   })
+};
+
+const getStationInfo = async (stationID : string): Promise<ApiStationResponse> => {
+  console.log("Fetching Stations in " + stationID)
+  return axiosConfig
+  .get<ApiStationResponse>(`/id/stations/${stationID}`)
+  .then( res => res.data )
 };
 
 const floodApi = {
   getStationsInCatchment,
   getAllCatchments,
-  getStationReadings
+  getStationReadings,
+  getStationInfo
 }
 
 export default floodApi
