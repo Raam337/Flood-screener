@@ -46,8 +46,6 @@ const getStationReadings = async (stationID : string): Promise<PureLevelReading[
       const { dateTime, value } = reading
       readings.unshift({ dateTime, value })
     })
-    console.log(readings)
-    //readings.push({ dateTime:new Date("2026-03-14T20:25:10.358Z"), value:0.7 })
     return readings
   })
 };

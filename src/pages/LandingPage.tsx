@@ -22,7 +22,7 @@ function LandingPage() {
       >
         <GridItem display="flex" flexDirection="column" p="4">
           <SearchBar />
-          <StationsMap w="100%" flexGrow="1"></StationsMap>
+          <StationsMap w="100%" flexGrow="1" p="6"></StationsMap>
         </GridItem>
 
         <GridItem>

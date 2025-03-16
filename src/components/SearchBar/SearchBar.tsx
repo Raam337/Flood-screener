@@ -1,5 +1,5 @@
 import floodApi from "@/services/api";
-import { Flex, Field, Box } from "@chakra-ui/react";
+import { Flex, Field, Box, Button } from "@chakra-ui/react";
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -8,7 +8,7 @@ import {
   Item,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SearchBar({ children }: { children?: ReactElement }) {
@@ -34,6 +34,8 @@ function SearchBar({ children }: { children?: ReactElement }) {
     navigate(`/${e.item.value}`);
   };
 
+  const ref = useRef()
+
   if (error) return <Box>Error: {error.message}</Box>;
 
   return (
@@ -45,7 +47,7 @@ function SearchBar({ children }: { children?: ReactElement }) {
           isLoading={isLoading}
           onSelectOption={handleSelect}
         >
-          <AutoCompleteInput variant="subtle" autoComplete="off" />
+          <AutoCompleteInput variant="subtle" autoComplete="off" placeholder="Select region..."/>
           <AutoCompleteList>
             {catchments?.map((item, cid) => (
               <AutoCompleteItem

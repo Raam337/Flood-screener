@@ -8,7 +8,7 @@ export type ApiResponse = {
 export type ApiStationResponse = {
   "@context": string;
   meta: MetaData;
-  items: StationInfo[];
+  items: StationInfo;
 };
 
 export type ApiReadingResponse = {
