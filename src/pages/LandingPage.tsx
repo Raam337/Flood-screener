@@ -15,17 +15,17 @@ function LandingPage() {
         </Heading>
       </Box>
       <Grid
-        templateColumns="repeat(2, minmax(0, 1fr))"
+        templateColumns={{ base:"repeat(1, minmax(0, 1fr))", md:"repeat(2, minmax(0, 1fr))"}}
         templateRows="calc(100vh - 50px)"
         as="main"
         bg="teal.200"
       >
         <GridItem display="flex" flexDirection="column" p="4">
           <SearchBar />
-          <StationsMap w="100%" flexGrow="1" p="6"></StationsMap>
+          <StationsMap w="100%" flexGrow="1"></StationsMap>
         </GridItem>
 
-        <GridItem>
+        <GridItem p="6">
           <StationDetails />
         </GridItem>
       </Grid>

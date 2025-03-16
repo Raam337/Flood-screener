@@ -22,7 +22,7 @@ function Chart({ data } : { data: PureLevelReading[] | undefined}) {
         time: {
           unit: "hour",
           displayFormats: {
-            hour: "MMM d, HH:mm",
+            hour: "HH:mm",
           }, 
         },
         ticks: {

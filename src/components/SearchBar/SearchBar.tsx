@@ -8,16 +8,12 @@ import {
   Item,
 } from "@choc-ui/chakra-autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { ReactElement, useRef } from "react";
+import { ReactElement, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SearchBar({ children }: { children?: ReactElement }) {
   const navigate = useNavigate();
-  const {
-    isLoading,
-    error,
-    data: catchments,
-  } = useQuery({
+  const { isLoading, error, data: catchments } = useQuery({
     queryKey: ["catchments"],
     queryFn: floodApi.getAllCatchments,
     refetchOnWindowFocus: false,
@@ -34,7 +30,6 @@ function SearchBar({ children }: { children?: ReactElement }) {
     navigate(`/${e.item.value}`);
   };
 
-  const ref = useRef()
 
   if (error) return <Box>Error: {error.message}</Box>;
 

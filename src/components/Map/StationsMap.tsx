@@ -1,5 +1,4 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { useEffect, useState } from 'react';
 import 'leaflet/dist/leaflet.css';
 import floodApi from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
@@ -26,13 +25,12 @@ function StationsMap({ ...styleProps }: StationMapProps) {
     <Box {...styleProps}>
       {isLoading ? (
         <Skeleton
-      variant="shine"
-      w="full"
-      h="full"
-      css={{
-        "--start-color": "colors.teal.200",
-        "--end-color": "colors.teal.400",
-      }}
+          variant="shine"
+          boxSize="full"
+          css={{
+            "--start-color": "colors.teal.200",
+            "--end-color": "colors.teal.400",
+        }}
     />
       ) : (
         <MapContainer
