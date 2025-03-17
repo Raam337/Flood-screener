@@ -30,7 +30,7 @@ function SearchBar({ children }: { children?: ReactElement }) {
   };
 
   const handleSelect = (e: onSelectOptionType) => {
-    navigate(`${e.item.value}`);
+    navigate(`/${e.item.value}`);
   };
 
   if (error) return <Box>Error: {error.message}</Box>;
