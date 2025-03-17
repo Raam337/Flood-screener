@@ -1,11 +1,12 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import floodApi from '@/services/api';
-import { useQuery } from '@tanstack/react-query';
-import { Box, BoxProps, Skeleton } from '@chakra-ui/react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useQuery } from "@tanstack/react-query";
+import { Box, BoxProps, Skeleton } from "@chakra-ui/react";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface StationMapProps extends BoxProps{}
+import "leaflet/dist/leaflet.css";
+import floodApi from "@/services/api";
+
+interface StationMapProps extends BoxProps {}
 
 function StationsMap({ ...styleProps }: StationMapProps) {
   const { catchment: selectedCatchment } = useParams();
@@ -17,7 +18,6 @@ function StationsMap({ ...styleProps }: StationMapProps) {
     enabled: !!selectedCatchment,
     refetchOnWindowFocus: false,
   });
-  console.log("Map rerender");
 
   if (error) return <div>{error.message}</div>;
 
@@ -30,17 +30,16 @@ function StationsMap({ ...styleProps }: StationMapProps) {
           css={{
             "--start-color": "colors.teal.200",
             "--end-color": "colors.teal.400",
-        }}
-    />
+          }}
+        />
       ) : (
         <MapContainer
           center={[52.505, -2.09]}
           zoom={6}
-          style={{ height: "100%", width: "100%"}}
-          
+          style={{ height: "100%", width: "100%" }}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          {data?.items?.map((point) => (
+          {data?.items.map((point) => (
             <Marker
               key={point.notation}
               position={[point.lat ?? 0, point.long ?? 0]}

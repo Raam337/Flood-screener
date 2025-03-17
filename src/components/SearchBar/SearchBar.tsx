@@ -1,5 +1,7 @@
-import floodApi from "@/services/api";
-import { Flex, Field, Box, Button } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
+import { ReactElement } from "react";
+import { useNavigate } from "react-router-dom";
+import { Flex, Field, Box } from "@chakra-ui/react";
 import {
   AutoComplete,
   AutoCompleteInput,
@@ -7,13 +9,15 @@ import {
   AutoCompleteList,
   Item,
 } from "@choc-ui/chakra-autocomplete";
-import { useQuery } from "@tanstack/react-query";
-import { ReactElement, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import floodApi from "@/services/api";
 
 function SearchBar({ children }: { children?: ReactElement }) {
   const navigate = useNavigate();
-  const { isLoading, error, data: catchments } = useQuery({
+  const {
+    isLoading,
+    error,
+    data: catchments,
+  } = useQuery({
     queryKey: ["catchments"],
     queryFn: floodApi.getAllCatchments,
     refetchOnWindowFocus: false,
@@ -26,10 +30,8 @@ function SearchBar({ children }: { children?: ReactElement }) {
   };
 
   const handleSelect = (e: onSelectOptionType) => {
-    console.log(e.item.value + " selected");
     navigate(`/${e.item.value}`);
   };
-
 
   if (error) return <Box>Error: {error.message}</Box>;
 
@@ -42,7 +44,11 @@ function SearchBar({ children }: { children?: ReactElement }) {
           isLoading={isLoading}
           onSelectOption={handleSelect}
         >
-          <AutoCompleteInput variant="subtle" autoComplete="off" placeholder="Select region..."/>
+          <AutoCompleteInput
+            variant="subtle"
+            autoComplete="off"
+            placeholder="Select region..."
+          />
           <AutoCompleteList>
             {catchments?.map((item, cid) => (
               <AutoCompleteItem

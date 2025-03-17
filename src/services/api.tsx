@@ -1,22 +1,20 @@
-import { ApiReadingResponse, ApiStationResponse, FloodItem, LevelReading, PureLevelReading } from "@/types/apiResponse";
+import { ApiReadingResponse, ApiStationResponse, ApiStationsResponse, PureLevelReading } from "@/types/apiResponse";
 import axios from "axios";
 
 const axiosConfig = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL: "https://environment.data.gov.uk/flood-monitoring",
   headers: {
     'Content-Type': 'application/json'
   },
 })
 
-const getStationsInCatchment = async (catchment : string): Promise<ApiStationResponse> => {
-  console.log("Fetching Stations in " + catchment)
+const getStationsInCatchment = async (catchment : string): Promise<ApiStationsResponse> => {
   return axiosConfig
-  .get<ApiStationResponse>(`/id/stations?parameter=level&catchmentName=${catchment}`)
+  .get<ApiStationsResponse>(`/id/stations?parameter=level&catchmentName=${catchment}`)
   .then( res => res.data )
 };
 
 const getAllCatchments = async (): Promise<string[]> => {
-  console.log("Fetching All Catchments...")
   return axiosConfig
   .get<ApiStationResponse>("/id/stations?parameter=level")
   .then( res => {
@@ -34,10 +32,8 @@ const getAllCatchments = async (): Promise<string[]> => {
 };
 
 const getStationReadings = async (stationID : string): Promise<PureLevelReading[]> => {
-  console.log("Fetching Reading in " + stationID);
   const yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
-  console.log(yesterday.toISOString())
   return axiosConfig
   .get<ApiReadingResponse>(`/id/stations/${stationID}/readings?_sorted&parameter=level&since=${yesterday.toISOString()}`)
   .then( res => {
@@ -51,7 +47,6 @@ const getStationReadings = async (stationID : string): Promise<PureLevelReading[
 };
 
 const getStationInfo = async (stationID : string): Promise<ApiStationResponse> => {
-  console.log("Fetching Stations in " + stationID)
   return axiosConfig
   .get<ApiStationResponse>(`/id/stations/${stationID}`)
   .then( res => res.data )

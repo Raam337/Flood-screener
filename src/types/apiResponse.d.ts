@@ -11,6 +11,12 @@ export type ApiStationResponse = {
   items: StationInfo;
 };
 
+export type ApiStationsResponse = {
+  "@context": string;
+  meta: MetaData;
+  items: StationInfo[];
+};
+
 export type ApiReadingResponse = {
   "@context": string;
   meta: MetaData;

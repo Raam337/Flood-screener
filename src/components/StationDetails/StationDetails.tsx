@@ -1,25 +1,42 @@
 import floodApi from "@/services/api";
-import { useQueries, useQuery } from "@tanstack/react-query"
-import { useParams } from "react-router-dom"
-import dayjs from 'dayjs';
-import { Box, Text, Flex, Heading, SimpleGrid, Table, Container, Center, Skeleton } from '@chakra-ui/react';
-import "chartjs-adapter-date-fns"; 
-import Chart from './Chart';
+import { useQueries } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import {
+  Box,
+  Text,
+  Flex,
+  Heading,
+  SimpleGrid,
+  Table,
+  Center,
+  Skeleton,
+} from "@chakra-ui/react";
+import "chartjs-adapter-date-fns";
+import Chart from "./Chart";
 
 const fields = {
   "Catchment area": "catchmentName",
-  "Date Opened":  "dateOpened",
+  "Date Opened": "dateOpened",
   "Latitude": "lat",
-  "Longitude:": "long"
-} as const
+  "Longitude": "long",
+} as const;
 
 function StationDetails() {
   const { town: selectedTown } = useParams();
 
   const results = useQueries({
     queries: [
-      { queryKey: ["station", selectedTown], queryFn: () => floodApi.getStationInfo(selectedTown!), enabled: !!selectedTown },
-      { queryKey: ["readings", selectedTown], queryFn: () => floodApi.getStationReadings(selectedTown!), enabled: !!selectedTown },
+      {
+        queryKey: ["station", selectedTown],
+        queryFn: () => floodApi.getStationInfo(selectedTown!),
+        enabled: !!selectedTown,
+      },
+      {
+        queryKey: ["readings", selectedTown],
+        queryFn: () => floodApi.getStationReadings(selectedTown!),
+        enabled: !!selectedTown,
+      },
     ],
   });
   const [stationInfo, stationReadings] = results;
@@ -45,16 +62,27 @@ function StationDetails() {
     );
 
   return (
-    <Flex direction="column" justify="center" align="center" w="full" h="full" fontSize={["3xl", "3xl", "3xl", "4xl"]}>
-        <Heading fontSize="1em" mb={8}>Station: {stationInfo.data?.items.label}</Heading>
-        <SimpleGrid columns={2} gap={2}>
-        {Object.entries(fields).map( ([value,key]) => (
-          <Box fontSize="0.5em">
-            <Text display="inline" fontWeight="500">{value}</Text>
+    <Flex
+      direction="column"
+      justify="center"
+      align="center"
+      w="full"
+      h="full"
+      fontSize={["3xl", "3xl", "3xl", "4xl"]}
+    >
+      <Heading fontSize="1em" mb={8}>
+        Station: {stationInfo.data?.items.label}
+      </Heading>
+      <SimpleGrid columns={2} gap={2}>
+        {Object.entries(fields).map(([value, key],index) => (
+          <Box fontSize="0.5em" key={index}>
+            <Text display="inline" fontWeight="500">
+              {value}
+            </Text>
             {`: ${stationInfo.data?.items[key]}`}
           </Box>
         ))}
-        </SimpleGrid>
+      </SimpleGrid>
       <Box w="full" h="fit" py={6} position="relative">
         <Chart data={stationReadings.data} />
       </Box>
@@ -64,20 +92,20 @@ function StationDetails() {
             <Table.Row bg="teal.400">
               <Table.ColumnHeader>Time</Table.ColumnHeader>
               {stationReadings.data?.map((item, id) => (
-                <>
-                <Table.ColumnHeader key={id}>
-                  <Text>{dayjs(item.dateTime).format("ddd")}</Text>
-                  {dayjs(item.dateTime).format("HH:mm")}
-                </Table.ColumnHeader>
-                </>
+                  <Table.ColumnHeader key={id}>
+                    <Text>{dayjs(item.dateTime).format("ddd")}</Text>
+                    {dayjs(item.dateTime).format("HH:mm")}
+                  </Table.ColumnHeader>
               ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            <Table.Cell>Level, m</Table.Cell>
-            {stationReadings.data?.map((item) => (
-              <Table.Cell>{item.value}</Table.Cell>
-            ))}
+            <Table.Row bg="teal.200">
+              <Table.Cell>Level, m</Table.Cell>
+              {stationReadings.data?.map((item, index) => (
+                <Table.Cell key={index}>{item.value}</Table.Cell>
+              ))}
+            </Table.Row>
           </Table.Body>
         </Table.Root>
       </Table.ScrollArea>
