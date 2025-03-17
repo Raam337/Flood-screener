@@ -4,7 +4,9 @@ import { Box, BoxProps, Skeleton } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import "leaflet/dist/leaflet.css";
+import markerIconPng from "leaflet/dist/images/marker-icon.png"
 import floodApi from "@/services/api";
+import { Icon } from "leaflet";
 
 interface StationMapProps extends BoxProps {}
 
@@ -47,6 +49,7 @@ function StationsMap({ ...styleProps }: StationMapProps) {
                 click: () =>
                   navigate(`/${selectedCatchment}/${point.notation}`),
               }}
+              icon={new Icon({iconUrl: markerIconPng, iconSize: [25, 41], iconAnchor: [12, 5]})}
             >
               <Popup>{point.label}</Popup>
             </Marker>

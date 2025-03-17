@@ -9,7 +9,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
+      <BrowserRouter basename="/Flood-screener">
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/:catchment" element={<LandingPage />} />

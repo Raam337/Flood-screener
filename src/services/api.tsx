@@ -16,7 +16,7 @@ const getStationsInCatchment = async (catchment : string): Promise<ApiStationsRe
 
 const getAllCatchments = async (): Promise<string[]> => {
   return axiosConfig
-  .get<ApiStationResponse>("/id/stations?parameter=level")
+  .get<ApiStationsResponse>("/id/stations?parameter=level")
   .then( res => {
     const catchments = new Set<string>()
     res.data.items.map( item => {
